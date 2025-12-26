@@ -42,7 +42,7 @@ class SMS
   public function __construct()
   {
     $this->apiKey = getSetting('kavenegar_api_key', '');
-    $this->sender = getSetting('sms_sender', '10008663');
+    $this->sender = getSetting('sms_sender', '2000660110');
     $this->enabled = (bool) getSetting('sms_enabled', 1);
   }
 
@@ -312,12 +312,15 @@ function sendEntryNotification($resident)
     }
   }
 
+  // دریافت تاریخ و زمان فارسی
+  $persianDateTime = getCurrentPersianDateTime();
+
   // متن پیام
   $message = sprintf(
     "سلام، فرزند گرامی شما %s در تاریخ %s ساعت %s ورود به خوابگاه را ثبت نمود.",
     $resident['name'],
-    gregorianToJalali(date('Y-m-d')),
-    formatPersianTime(date('H:i'))
+    $persianDateTime['date'],
+    convertToPersianNumbers(date('H:i'))
   );
 
   // ارسال پیامک
@@ -356,12 +359,15 @@ function sendExitNotification($resident)
     }
   }
 
+  // دریافت تاریخ و زمان فارسی
+  $persianDateTime = getCurrentPersianDateTime();
+
   // متن پیام
   $message = sprintf(
     "سلام، فرزند گرامی شما %s در تاریخ %s ساعت %s خروج از خوابگاه را ثبت نمود.",
     $resident['name'],
-    gregorianToJalali(date('Y-m-d')),
-    formatPersianTime(date('H:i'))
+    $persianDateTime['date'],
+    convertToPersianNumbers(date('H:i'))
   );
 
   // ارسال پیامک
@@ -377,7 +383,8 @@ function sendExitNotification($resident)
  */
 function testSMS($phone)
 {
-  $message = "این یک پیام تست از سیستم مدیریت خوابگاه است. تاریخ: " . gregorianToJalali(date('Y-m-d'));
+  $persianDateTime = getCurrentPersianDateTime();
+  $message = "این یک پیام تست از سیستم مدیریت خوابگاه است. تاریخ: " . $persianDateTime['date'] . " - ساعت: " . convertToPersianNumbers(date('H:i'));
 
   $sms = new SMS();
   return $sms->send($phone, $message);

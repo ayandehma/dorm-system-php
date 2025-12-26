@@ -169,7 +169,7 @@ $settings = [
                 <small style="color: var(--text-color); display: block; margin-top: 5px;">
                     <i class="fas fa-info-circle"></i>
                     از پنل کاوه نگار دریافت کنید: 
-                    <a href="https://panel.kavenegar.com/client/setting/account" target="_blank">panel.kavenegar.com</a>
+                    <a href="https://console.kavenegar.com/home" target="_blank">console.kavenegar.com</a>
                 </small>
             </div>
             

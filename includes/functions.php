@@ -11,6 +11,12 @@ if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 
+// بارگذاری کتابخانه تاریخ جلالی
+require_once __DIR__ . '/jdf.php';
+
+// تنظیم timezone به تهران
+date_default_timezone_set('Asia/Tehran');
+
 /**
  * ====================================
  * توابع احراز هویت
@@ -282,15 +288,8 @@ function gregorianToJalali($gregorianDate)
     return '';
   }
 
-  // اگر تابع jdate وجود نداشت، از تاریخ میلادی استفاده می‌کنیم
-  if (!function_exists('jdate')) {
-    return date('Y/m/d', strtotime($gregorianDate));
-  }
-
   $timestamp = strtotime($gregorianDate);
-  $jalaliDate = jdate('Y/m/d', $timestamp);
-
-  return $jalaliDate;
+  return jdate('Y/m/d', $timestamp);
 }
 
 /**
@@ -306,6 +305,21 @@ function formatPersianTime($time)
   }
 
   return convertToPersianNumbers($time);
+}
+
+/**
+ * دریافت تاریخ و زمان فعلی به فارسی
+ * 
+ * @return array ['date' => تاریخ, 'time' => زمان]
+ */
+function getCurrentPersianDateTime()
+{
+  return [
+    'date' => jdate('Y/m/d'),
+    'time' => jdate('H:i:s'),
+    'datetime' => jdate('Y/m/d H:i:s'),
+    'full' => jdate('l، j F Y - ساعت H:i')
+  ];
 }
 
 /**
