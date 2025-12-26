@@ -1,2 +1,4 @@
 logs/*
+!logs/.gitkeep
 uploads/photos/*
+!uploads/photos/.gitkeep
